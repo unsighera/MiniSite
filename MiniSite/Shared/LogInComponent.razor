@@ -30,7 +30,7 @@
 </body>
 </html>
 
-@if (showSuccessModal)
+@* @if (showSuccessModal)
 {
     <div class="modal" style="display:block;" )">
         <div class="modal-content">
@@ -38,10 +38,9 @@
             <p>Вы успешно вошли в систему!</p>
         </div>
     </div>
-}
+} *@
 
 @code {
-    [Parameter] public List<User> UsersList { get; set; } = new();
     [Inject] NavigationManager NavigationManager { get; set; }
     private bool showSuccessModal = false;
     string enteredLogin = "";
@@ -49,7 +48,7 @@
 
     private void LoginButton()
     {
-        foreach (var user in UsersList)
+        foreach (var user in UsersClass.userList)
         {
             if (user.Login == enteredLogin && user.Password == enteredPassword)
             {

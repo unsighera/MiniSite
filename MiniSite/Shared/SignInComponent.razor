@@ -44,7 +44,7 @@
     </div>
 }
 
-@if (showModal)
+@* @if (showModal)
 {
     <div class="modal" tabindex="-1" style="display:block;">
         <div class="modal-dialog">
@@ -53,10 +53,9 @@
             </div>
         </div>
     </div>
-}
+} *@
 
 @code {
-    [Parameter] public List<User> UsersList { get; set; } = new();
     [Inject] NavigationManager NavigationManager { get; set; }
     private bool showSuccessModal = false;
     private bool showModal = false;
@@ -75,9 +74,9 @@
         //     }
         //     else
         //     {
-                UsersClass.userList.Add(new User(enteredLogin, enteredPassword, userName));
-                showSuccessModal = true;
-                NavigationManager.NavigateTo("/");
+            UsersClass.userList.Add(new User(enteredLogin, enteredPassword, userName));
+            showSuccessModal = true;
+            NavigationManager.NavigateTo("");
         //     }
         // }
     }
