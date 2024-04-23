@@ -1,5 +1,6 @@
 @using MiniSite.Data
-@inject UsersClass UsersClass
+@inject DataContext DataContext
+@inject UserContext UserContext
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,10 +56,11 @@
 
     private void LoginButton()
     {
-        foreach (var user in UsersClass.userList)
+        foreach (var user in DataContext.userList)
         {
             if (user.Login == enteredLogin && user.Password == enteredPassword)
             {
+                UserContext.SetCurrentUser(user); // TODO: Вроде реализовал хранение
                 showSuccessModal = true;
                 return;
             }

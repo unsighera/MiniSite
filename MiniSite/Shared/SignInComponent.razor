@@ -1,5 +1,5 @@
 ﻿@using MiniSite.Data
-@inject UsersClass UsersClass
+@inject DataContext DataContext
 @page "/reg";
 
 <!DOCTYPE html>
@@ -62,17 +62,57 @@
     </div>
 }
 
+@if (showInvalidModal)
+{
+    <div class="modal" tabindex="-1" style="display:block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <p>Неверные данные регистрации</p>
+            </div>
+        </div>
+    </div>
+}
+
 @code {
     [Inject] NavigationManager NavigationManager { get; set; }
     private bool showSuccessModal = false;
+    private bool showInvalidModal = false;
     private bool showModal = false;
     string enteredLogin = "";
     string enteredPassword = "";
     string userName = "";
 
+    private bool IsValidLogin(string login)
+    {
+        if (login.Length < 6)
+            return false;
+
+        if (char.IsDigit(login[0]))
+            return false;
+
+        return true;
+    }
+
+    private bool IsValidPassword(string password)
+    {
+        if (password.Length < 6)
+            return false;
+
+        if (!password.Any(char.IsUpper))
+            return false;
+
+        if (!password.Any(char.IsDigit))
+            return false;
+
+        if (!password.Any(ch => !char.IsLetterOrDigit(ch)))
+            return false;
+
+        return true;
+    }
+
     private bool CheckListForUsers()
     {
-        foreach (var user in UsersClass.userList)
+        foreach (var user in DataContext.userList)
         {
             if (user.Login == enteredLogin)
                 return false;
@@ -84,12 +124,20 @@
 
     private void RegistraionButton()
     {
-        if (CheckListForUsers() == false)
+        if (CheckListForUsers() == false)                      // TODO: Вроде провери гуд
             return;
         else
         {
-            UsersClass.userList.Add(new User(enteredLogin, enteredPassword, userName));
-            showSuccessModal = true;
+            if (!IsValidLogin(enteredLogin) || !IsValidPassword(enteredPassword))
+            {
+                showInvalidModal = true;
+                return;
+            }
+            else
+            {
+                DataContext.userList.Add(new User(enteredLogin, enteredPassword, userName));
+                showSuccessModal = true;
+            }     
         }
     }
 
