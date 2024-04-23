@@ -40,7 +40,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Завершение регисстрации</h5>
+                    <h5 class="modal-title">Завершение регистрации</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" @onclick="CloseModal" aria-label="Закрыть"></button>
                 </div>
                 <div class="modal-body">
@@ -56,7 +56,13 @@
     <div class="modal" tabindex="-1" style="display:block;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <p>Такой пользователь уже существует</p>
+                <div class="modal-header">
+                    <h5 class="modal-title">Неверные данные</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" @onclick="CloseLoginExceptionModal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Пользователь с таким логином уже существует</p>
+                </div>
             </div>
         </div>
     </div>
@@ -67,7 +73,13 @@
     <div class="modal" tabindex="-1" style="display:block;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <p>Неверные данные регистрации</p>
+                <div class="modal-header">
+                    <h5 class="modal-title">Неверные данные</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" @onclick="CloseInvalidModal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Проверьте правильность введенного логина или пароля</p>
+                </div>
             </div>
         </div>
     </div>
@@ -145,5 +157,15 @@
     {
         showSuccessModal = false;
         NavigationManager.NavigateTo("");
+    }
+
+    private void CloseInvalidModal()
+    {
+        showInvalidModal = false;
+    }
+
+    private void CloseLoginExceptionModal()
+    {
+        showModal = false;
     }
 }
