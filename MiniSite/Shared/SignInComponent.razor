@@ -12,11 +12,11 @@
 </head>
 <body>
     <div class="RegBox">
-        <h3>Log In</h3>
+        <h3>Sign In</h3>
         <div class="Inputs">
             <div class="UserBox">
                 <label>User name</label>
-                <input class="inputfield" type="text" @bind="@enteredLogin">
+                <input class="inputfield" type="text" @bind="@userName">
             </div>
             <div class="LoginBox">
                 <label>Login</label>
@@ -36,15 +36,22 @@
 
 @if (showSuccessModal)
 {
-    <div class="modal" style="display:block;")">
-        <div class="modal-content">
-            <span class="close" @onclick="()=>showSuccessModal = false">&times;</span>
-            <p>Вы успешно зарегистрировались!</p>
+    <div class="modal" tabindex="-1" style="display:block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Завершение регисстрации</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" @onclick="CloseModal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Профиль успешно создан</p>
+                </div>
+            </div>
         </div>
     </div>
 }
 
-@* @if (showModal)
+@if (showModal)
 {
     <div class="modal" tabindex="-1" style="display:block;">
         <div class="modal-dialog">
@@ -53,7 +60,7 @@
             </div>
         </div>
     </div>
-} *@
+}
 
 @code {
     [Inject] NavigationManager NavigationManager { get; set; }
@@ -63,21 +70,32 @@
     string enteredPassword = "";
     string userName = "";
 
+    private bool CheckListForUsers()
+    {
+        foreach (var user in UsersClass.userList)
+        {
+            if (user.Login == enteredLogin)
+                return false;
+            else
+                return true;
+        }
+        return false;
+    }
+
     private void RegistraionButton()
     {
-        // foreach (var user in UsersList)
-        // {
-        //     if (user.Login == enteredLogin)
-        //     {
-        //         showModal = true;
-        //         return;
-        //     }
-        //     else
-        //     {
+        if (CheckListForUsers() == false)
+            return;
+        else
+        {
             UsersClass.userList.Add(new User(enteredLogin, enteredPassword, userName));
             showSuccessModal = true;
-            NavigationManager.NavigateTo("");
-        //     }
-        // }
+        }
+    }
+
+    private void CloseModal()
+    {
+        showSuccessModal = false;
+        NavigationManager.NavigateTo("");
     }
 }

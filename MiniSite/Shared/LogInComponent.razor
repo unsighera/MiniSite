@@ -30,15 +30,22 @@
 </body>
 </html>
 
-@* @if (showSuccessModal)
+@if (showSuccessModal)
 {
-    <div class="modal" style="display:block;" )">
-        <div class="modal-content">
-            <span class="close" @onclick="()=>showSuccessModal = false">&times;</span>
-            <p>Вы успешно вошли в систему!</p>
+    <div class="modal" tabindex="-1" style="display:block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Вход в систему</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" @onclick="CloseModal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Вы успешно вошли!</p>
+                </div>
+            </div>
         </div>
     </div>
-} *@
+}
 
 @code {
     [Inject] NavigationManager NavigationManager { get; set; }
@@ -53,7 +60,6 @@
             if (user.Login == enteredLogin && user.Password == enteredPassword)
             {
                 showSuccessModal = true;
-                NavigationManager.NavigateTo("counter");
                 return;
             }
         }
@@ -62,5 +68,11 @@
     private void RegistraionButton()
     {
         NavigationManager.NavigateTo("signin");
+    }
+
+    private void CloseModal()
+    {
+        showSuccessModal = false;
+        NavigationManager.NavigateTo("main");
     }
 }

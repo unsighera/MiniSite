@@ -4,9 +4,9 @@
     {
         public List<User> userList = new List<User>
         {
-            new User("user1", "user1", "user1"),
-            new User("user2", "user2", "user2"),
-            new User("user3", "user3", "user3")
+            new User("User_1", "User_1", "User1"),
+            new User("User_2", "User_2", "User2"),
+            new User("User_3", "User_3", "User3")
         };
     }
     
