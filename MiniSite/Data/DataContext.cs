@@ -1,4 +1,5 @@
-﻿namespace MiniSite.Data
+﻿using MiniSite.Data;
+namespace MiniSite.Data
 {
     public class DataContext
     {

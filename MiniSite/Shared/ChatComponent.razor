@@ -1,0 +1,94 @@
+﻿@using MiniSite.Data
+@inject DataContext DataContext
+@inject UserContext UserContext
+
+<div class="chat-container">
+    <div class="chat-messages" id="chat-messages">
+        @if (DataContext.messageList != null)
+        {
+            foreach (var message in DataContext.messageList)
+            {
+                <div class="message">
+                    <span class="sender">@message.UserOwner.Name:</span>
+                    <span class="text">@message.Message</span>
+                </div>
+            }
+        }
+    </div>
+    <div class="chat-input">
+        <input type="text" @bind="@messageInput" placeholder="Введите сообщение..." />
+        <button @onclick="SendMessage">Отправить</button>
+    </div>
+</div>
+
+@code {
+    private string messageInput;
+
+    private void SendMessage()
+    {
+        if (!string.IsNullOrWhiteSpace(messageInput))
+        {
+            DataContext.AddMessage(new MessageClass(messageInput, UserContext.CurrentUser));
+            messageInput = "";
+        }
+    }
+}
+
+<style>
+    .chat-container {
+        max-width: 500px;
+        margin: 20px auto;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .chat-messages {
+        height: 300px;
+        overflow-y: scroll;
+        padding: 10px;
+    }
+
+    .message {
+        margin-bottom: 10px;
+    }
+
+        .message .sender {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .message .text {
+            margin-left: 10px;
+        }
+
+        .message.me .text {
+            margin-left: 0;
+            margin-right: 10px;
+            text-align: right;
+        }
+
+    .chat-input {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        background-color: #fff;
+    }
+
+        .chat-input input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .chat-input button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+</style>
