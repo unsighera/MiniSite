@@ -5,7 +5,14 @@
 <h3>Welcome, @UserContext.CurrentUser.Name</h3>
 @page "/main"
 
-<ChatComponent></ChatComponent>
+<div style="display: flex;">
+    <div style="flex: 1;">
+        <UserListComponent></UserListComponent>
+    </div>
+    <div style="flex: 1;">
+        <ChatComponent></ChatComponent>
+    </div>
+</div>
 
 @code {
 

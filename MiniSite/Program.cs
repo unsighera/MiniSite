@@ -9,6 +9,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<DataContext>();
 builder.Services.AddSingleton<UserContext>();
+builder.Services.AddSingleton<ChatContext>();
 
 var app = builder.Build();
 

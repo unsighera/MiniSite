@@ -1,0 +1,53 @@
+﻿@using MiniSite.Data;
+@inject DataContext DataContext;
+@inject UserContext UserContext;
+@inject ChatContext ChatContext;
+
+<input @bind="searchTerm" placeholder="Search by name..." />
+<button @onclick="Search">Search</button>
+
+@if (filteredUsers.Any())
+{
+    <ul>
+        @foreach (var user in filteredUsers)
+        {
+            <li @onclick="() => StartChatWithUser(user)">@user.Name</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No users found.</p>
+}
+
+@code {
+    private string searchTerm = "";
+    private List<User> filteredUsers = new List<User>();
+
+    public void Search()
+    {
+        filteredUsers = DataContext.userList.Where(u => u.Name.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+    }
+
+    private void StartChatWithUser(User user)
+    {
+        var existingChat = DataContext.chatList.FirstOrDefault(chat => chat.Users.Contains(UserContext.CurrentUser) && chat.Users.Contains(user));
+
+        if (existingChat != null)
+        {
+            existingChat = ChatContext.CurrentChat;
+        }
+        else
+        {
+            var newChat = new ChatClass
+                {
+                    Users = new List<User> { UserContext.CurrentUser, user },
+                    Messages = new List<MessageClass>()
+                };
+
+            DataContext.AddChat(newChat);
+
+            newChat = ChatContext.CurrentChat;
+        }
+    }
+}

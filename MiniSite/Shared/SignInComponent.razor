@@ -119,8 +119,18 @@
         if (!password.Any(ch => !char.IsLetterOrDigit(ch)))
             return false;
 
-        return true;
+        var forbiddenWords = new[] { "talgat", "practica", "hochetsdat", "malishka" };
+        foreach (var word in forbiddenWords)
+        {
+            if (password.IndexOf(word, StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
+
 
     private bool CheckListForUsers()
     {
